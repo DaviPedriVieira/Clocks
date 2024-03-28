@@ -24,7 +24,7 @@ function setAnalogicClock() {
 
 // relógio digital
 function updateDigitalClock() {
-    let now = new Date();
+    const now = new Date();
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
     const seconds = String(now.getSeconds()).padStart(2, "0");
@@ -32,11 +32,36 @@ function updateDigitalClock() {
     digitalClock.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
+// btns como mostra a hora
+/*
+const amPmBtn = document.getElementById('amPm')
 
+amPmBtn.addEventListener('click', function() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");          - criar div para mostrar quando é AM e quando é PM
+    const seconds = String(now.getSeconds()).padStart(2, "0");          - dar um jeito de mudar a forma como saõ mostradas as horas para que seja mostrado na formatação de 12hrs 
+    let period = "AM" 
+    if (hours >= 12) {
+        period = "PM";
+        console.log(period);
+    } else {
+        period = "AM";
+        console.log(period);
+    }
+});
+
+const fullDayBtn = document.getElementById('fullDay')
+
+fullDayBtn.addEventListener('click', function() {
+    console.log("Botão fullday clicado!"); 
+    
+});
+*/
+// mostrar ou não cada relógio
 const btnDigital = document.getElementById('btnDigital');
 
 btnDigital.addEventListener('click', function() {
-    console.log("Botão digital clicado!"); 
     analogicClock.style.display = 'none';
     digitalClock.style.display = 'flex';
     cronometer.style.display = 'none';
@@ -46,7 +71,6 @@ btnDigital.addEventListener('click', function() {
 const btnAnalogico = document.getElementById('btnAnalogico');
 
 btnAnalogico.addEventListener('click', function() {
-    console.log("Botão analógico clicado!"); 
     analogicClock.style.display = 'flex';
     digitalClock.style.display = 'none';
     cronometer.style.display = 'none';
@@ -56,7 +80,6 @@ btnAnalogico.addEventListener('click', function() {
 const btnCronometro = document.getElementById('btnCronometro');
 
 btnCronometro.addEventListener('click', function() {
-    console.log("Botão analógico clicado!"); 
     analogicClock.style.display = 'none';
     digitalClock.style.display = 'none';
     cronometer.style.display = 'block';
@@ -72,18 +95,28 @@ let times = [];
 let intervalId = 0;
 let timer = 0;
 
-const formatTime = (time) => {
+function formatTime(time){
     const hoursCrono = Math.floor(time / 3600000);
     const minutesCrono = Math.floor((time % 3600000) / 6000);
     const secondsCrono = Math.floor((time % 6000) / 100);
 
     return `${hoursCrono.toString().padStart(2, '0')}:${minutesCrono.toString().padStart(2, '0')}:${secondsCrono.toString().padStart(2, '0')}`;
-}
+};
 
 function addTime(timeIndex, saveTime){
-    timesList.innerHTML += `<p>Tempo ${timeIndex}: ${formatTime(saveTime)}</p>`
+    timesList.innerHTML += `<p>Tempo ${timeIndex}: ${formatTime(saveTime)} <button id="deleteTime"><i class="fa-solid fa-circle-xmark"></i></button></p>`
+};
+/*
+function deleteOneInTimeList() {
+    let confirmation = confirm('Deseja realmente excluir? ');
+    if (confirmation) {
+        let values = JSON.parse(localStorage.getItem(localStorageKey) || "[]");
+        let index = values.findIndex(x => x.name == data);
+        values.splice(index, 1);
+        localStorage.setItem(localStorageKey, JSON.stringify(values));
+    }
 }
-
+*/
 function saveTime() {
     times.push(timer);
     addTime(times.length, timer)
@@ -98,8 +131,6 @@ function resetTimer() {
     button.getAttribute('action', 'start');
     button.innerHTML = '<i class="fa-solid fa-play"></i>';
 }
-
-
 
 function toggleTimer() {
     const button = document.getElementById('startAndStop');

@@ -1,0 +1,253 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    min-height: 100vh;
+    background-color: rgb(20, 20, 20);
+}
+
+#menu {
+    background-color: rgb(77, 77, 77);
+    height: 100px;
+}
+
+#wall {
+    min-height: 50px;
+}
+
+#main {
+    min-height: 40vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: rgb(20, 20, 20);
+}
+
+.analogicClock {
+    margin-top: 100px;
+    min-height: 450px;
+    min-width: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(45, 45, 45);
+    background-image: url(img.png);
+    background-position: center center;
+    background-size: cover;
+    border-radius: 50%;
+    border: 10px solid rgb(77, 77, 77);
+    display: none; 
+}
+
+
+.analogicClock:before {
+    content:"";
+    background-color: rgb(118, 115, 115);
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 100;
+}
+
+
+#hourPointer, #minutePointer, #secondPointer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+
+#hourPointer{
+    height: 14em;
+    width: 8em;
+}
+
+
+#hourPointer:before {
+    content:"";
+    position: absolute;
+    height: 50%;
+    width: 10px;
+    background-color: red;
+    border-radius: 1rem;;
+}
+
+
+#minutePointer{
+    height: 18em;
+    width: 14em;
+}
+
+
+#minutePointer:before{
+    content:"";
+    height: 50%;
+    width: 5px;
+    background-color: rgb(0, 255, 123);
+    border-radius: 1rem;
+}
+
+
+#secondPointer{
+    height: 25em;
+    width: 18em;
+}
+
+
+#secondPointer:before{
+    content:"";
+    height: 60%;
+    width: 3px;
+    background-color: rgb(255, 255, 0);
+    border-radius: 1rem;
+}
+
+
+.digitalClock {
+    margin-top: 100px;
+    color: white;
+    font-size: 120px;
+    min-height: 300px;
+    min-width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    background-position: center center;
+    background-size: cover;
+    border-radius: 4rem;
+    border: 30px solid rgb(76, 74, 74);
+    z-index: 10;
+    display: none;     
+}
+/*
+esse show period é para mostrar quando é am ou pm
+#showPeriod {
+    height: 100px;
+    width: 100px;
+    background-color: blanchedalmond;
+    color: white;
+    font-size: 1rem;
+}
+*/
+#btnsChangeType {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: calc(20% + 400px); /* Posiciona abaixo do relógio digital e adiciona um espaço de 20px */
+    left: 0;
+    right: 0;
+    display: none;
+}
+
+
+#amPm, #fullDay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    min-height: 60px;
+    min-width: 200px;
+    background-color: rgb(43, 43, 43);
+    border-radius: 1rem;
+    margin: 0 10px;
+    color:white;
+    font-size: 20px;
+}
+
+
+.buttonsDiv {
+    position: absolute;
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+#btnDigital, #btnAnalogico, #btnCronometro{
+    margin-left: 30px;
+    margin-right: 30px;
+    min-height: 50px;
+    min-width: 150px;
+    border-radius: 1rem;
+    color:white;
+    background-color: rgb(43, 43, 43);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+.cronometer{
+    background-color: rgb(0, 0, 0);
+    border: 10px solid rgb(76, 74, 74);
+    border-radius: 1rem;
+}
+
+
+#timer {
+    background-color: rgb(0, 0, 0);
+    height: 200px;
+    width: 300px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 60px;
+    padding: 1rem;
+}
+
+
+#cronometerButtons{
+    display: flex;
+    gap: 0.75rem;
+}
+
+
+#reset, #startAndStop, #save {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+
+#timesList{
+    color:white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+
+
+}
+
+
+#timesList p:first-child{
+    margin-top: 1.5rem;
+}
+
+#deleteTime {
+    background-color: black;
+    color: white;
+    border:none;
+    cursor: pointer;
+}
