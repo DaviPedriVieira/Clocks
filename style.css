@@ -134,7 +134,7 @@ body {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: calc(20% + 400px); /* Posiciona abaixo do relógio digital e adiciona um espaço de 20px */
+    top: calc(20% + 400px); 
     left: 0;
     right: 0;
     display: none;
@@ -180,6 +180,7 @@ body {
     border-radius: 1rem;
     align-items: top;
     margin-top: 50px;
+    display: none;
 }
 
 #timer {

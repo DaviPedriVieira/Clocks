@@ -40,6 +40,7 @@ const btnDigital = document.getElementById('btnDigital');
 
 btnDigital.addEventListener('click', () => {
     changeToDigitalClock();
+    saveClockStateToLocalStorage('digital');
 });
 
 function changeToDigitalClock() {
@@ -55,6 +56,7 @@ const btnAnalogico = document.getElementById('btnAnalogico');
 
 btnAnalogico.addEventListener('click', () => {
     changeToAnalogicClock();
+    saveClockStateToLocalStorage('analogic');
 });
 
 function changeToAnalogicClock() {
@@ -69,7 +71,8 @@ function changeToAnalogicClock() {
 const btnCronometro = document.getElementById('btnCronometro');
 
 btnCronometro.addEventListener('click', () => {
-    changeToCronometer()
+    changeToCronometer();
+    saveClockStateToLocalStorage('cronometer');
 });
 
 function changeToCronometer() {
@@ -191,6 +194,33 @@ function saveClockStateToLocalStorage(clockType) {
     localStorage.setItem('clockState', clockType);
 }
 
+function loadClockStateFromLocalStorage() {
+    const clockState = localStorage.getItem('clockState');
+    if (clockState === 'digital') {
+        digitalClock.style.display = 'flex';
+        analogicClock.style.display = 'none';
+        cronometer.style.display = 'none';
+        btnsDigitalClock.style.display = 'flex';
+    } else if (clockState === 'analogic') {
+        digitalClock.style.display = 'none';
+        analogicClock.style.display = 'flex';
+        cronometer.style.display = 'none';
+        btnsDigitalClock.style.display = 'none';
+    } else if (clockState === 'cronometer') {
+        digitalClock.style.display = 'none';
+        analogicClock.style.display = 'none';
+        cronometer.style.display = 'block';
+        btnsDigitalClock.style.display = 'none';
+    } else {
+        digitalClock.style.display = 'flex';
+        analogicClock.style.display = 'none';
+        cronometer.style.display = 'none';
+        btnsDigitalClock.style.display = 'flex';
+    }
+}
+
+// Carregar o estado do relógio do localStorage ao carregar a página
+loadClockStateFromLocalStorage();
 
 
 setAnalogicClock();
