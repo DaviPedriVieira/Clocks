@@ -97,6 +97,8 @@ body {
 }
 
 .digitalClock {
+    position: absolute;
+    z-index: 998;
     margin-top: 100px;
     color: white;
     font-size: 120px;
@@ -113,16 +115,20 @@ body {
     z-index: 10;
     display: none;    
 }
-/*
-esse show period é para mostrar quando é am ou pm
+
 #showPeriod {
-    height: 100px;
-    width: 100px;
-    background-color: blanchedalmond;
+    position: absolute; 
+    top: 0; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 1;
     color: white;
-    font-size: 1rem;
+    margin-top: 320px;
+    font-size: 2rem;
+    z-index: 999;
+    display: none;
 }
-*/
+
 #btnsChangeType {
     display: flex;
     align-items: center;

@@ -2,6 +2,7 @@ const deg = 6;
 const digitalClock = document.querySelector('.digitalClock');
 const analogicClock = document.querySelector('.analogicClock')
 const cronometer = document.querySelector('.cronometer')
+const divShowPeriod = document.querySelector('#showPeriod')
 const btnsDigitalClock = document.querySelector('#btnsChangeType')
 
 
@@ -37,37 +38,47 @@ function updateDigitalClock() {
 // mostrar ou não cada relógio
 const btnDigital = document.getElementById('btnDigital');
 
+btnDigital.addEventListener('click', () => {
+    changeToDigitalClock();
+});
 
-btnDigital.addEventListener('click', function() {
+function changeToDigitalClock() {
     analogicClock.style.display = 'none';
     digitalClock.style.display = 'flex';
     cronometer.style.display = 'none';
     btnsDigitalClock.style.display = 'flex';
-});
+    divShowPeriod.style.display = 'flex';
+}
 
 
 const btnAnalogico = document.getElementById('btnAnalogico');
 
+btnAnalogico.addEventListener('click', () => {
+    changeToAnalogicClock();
+});
 
-btnAnalogico.addEventListener('click', function() {
+function changeToAnalogicClock() {
     analogicClock.style.display = 'flex';
     digitalClock.style.display = 'none';
     cronometer.style.display = 'none';
     btnsDigitalClock.style.display = 'none';
-});
+    divShowPeriod.style.display = 'none';
+}
 
 
 const btnCronometro = document.getElementById('btnCronometro');
 
+btnCronometro.addEventListener('click', () => {
+    changeToCronometer()
+});
 
-btnCronometro.addEventListener('click', function() {
+function changeToCronometer() {
     analogicClock.style.display = 'none';
     digitalClock.style.display = 'none';
     cronometer.style.display = 'block';
     btnsDigitalClock.style.display = 'none';
-});
-
-
+    divShowPeriod.style.display = 'none';
+}
 
 // Cronômetro
 const timerElement = document.getElementById('timer');
@@ -85,7 +96,6 @@ function formatTime(time){
     const secondsCrono = Math.floor((time % 6000) / 100).toString().padStart(2, '0');
     const milisecondsCrono = (time % 100).toString().padStart(2, '0');;
 
-
     return `${hoursCrono}:${minutesCrono}:${secondsCrono}:${milisecondsCrono}`;
 };
 
@@ -100,15 +110,17 @@ function deleteTimeFromList(index) {
 }  
 
 function saveTime() {
-    if (timer != 0) {
+    if (timer == 0) {
+        alert("Tempo inválido!");
+    } else if (times.includes(timer)) {
+        alert("Já existe um tempo igual salvo na lista!");
+    } else {
         times.push(timer);
         saveTimesToLocalStorage();
-        renderTimes(); 
-    }
-    else {
-        alert("Tempo inválido!")
+        renderTimes();
     }
 }
+
 
 // salva os tempos no localStorage
 function saveTimesToLocalStorage() {
@@ -134,10 +146,6 @@ function renderTimes() {
 }
 
 loadTimesFromLocalStorage();
-
-function saveClockStateToLocalStorage(clockType) {
-    localStorage.setItem('clockState', clockType);
-}
 
 function resetTimer() {
     clearInterval(intervalId);
@@ -175,6 +183,15 @@ function setTimer(time) {
 document.getElementById('startAndStop').addEventListener('click', toggleTimer);
 document.getElementById('reset').addEventListener('click', resetTimer);
 document.getElementById('save').addEventListener('click', saveTime);
+
+
+// salvando relógios no local storage
+
+function saveClockStateToLocalStorage(clockType) {
+    localStorage.setItem('clockState', clockType);
+}
+
+
 
 setAnalogicClock();
 setInterval(setAnalogicClock, 1000);
