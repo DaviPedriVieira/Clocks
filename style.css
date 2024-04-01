@@ -3,7 +3,6 @@
     padding: 0;
 }
 
-
 body {
     min-height: 100vh;
     background-color: rgb(20, 20, 20);
@@ -12,10 +11,6 @@ body {
 #menu {
     background-color: rgb(77, 77, 77);
     height: 100px;
-}
-
-#wall {
-    min-height: 50px;
 }
 
 #main {
@@ -41,9 +36,8 @@ body {
     background-size: cover;
     border-radius: 50%;
     border: 10px solid rgb(77, 77, 77);
-    display: none; 
+    display: none;
 }
-
 
 .analogicClock:before {
     content:"";
@@ -55,7 +49,6 @@ body {
     z-index: 100;
 }
 
-
 #hourPointer, #minutePointer, #secondPointer {
     position: absolute;
     display: flex;
@@ -63,12 +56,10 @@ body {
     border-radius: 50%;
 }
 
-
 #hourPointer{
     height: 14em;
     width: 8em;
 }
-
 
 #hourPointer:before {
     content:"";
@@ -79,12 +70,10 @@ body {
     border-radius: 1rem;;
 }
 
-
 #minutePointer{
     height: 18em;
     width: 14em;
 }
-
 
 #minutePointer:before{
     content:"";
@@ -94,12 +83,10 @@ body {
     border-radius: 1rem;
 }
 
-
 #secondPointer{
     height: 25em;
     width: 18em;
 }
-
 
 #secondPointer:before{
     content:"";
@@ -108,7 +95,6 @@ body {
     background-color: rgb(255, 255, 0);
     border-radius: 1rem;
 }
-
 
 .digitalClock {
     margin-top: 100px;
@@ -125,7 +111,7 @@ body {
     border-radius: 4rem;
     border: 30px solid rgb(76, 74, 74);
     z-index: 10;
-    display: none;     
+    display: none;    
 }
 /*
 esse show period é para mostrar quando é am ou pm
@@ -148,7 +134,6 @@ esse show period é para mostrar quando é am ou pm
     display: none;
 }
 
-
 #amPm, #fullDay {
     display: flex;
     align-items: center;
@@ -163,7 +148,6 @@ esse show period é para mostrar quando é am ou pm
     font-size: 20px;
 }
 
-
 .buttonsDiv {
     position: absolute;
     margin-top: 25px;
@@ -171,7 +155,6 @@ esse show period é para mostrar quando é am ou pm
     display: flex;
     justify-content: center;
 }
-
 
 #btnDigital, #btnAnalogico, #btnCronometro{
     margin-left: 30px;
@@ -185,13 +168,13 @@ esse show period é para mostrar quando é am ou pm
     font-size: 16px;
 }
 
-
 .cronometer{
     background-color: rgb(0, 0, 0);
     border: 10px solid rgb(76, 74, 74);
     border-radius: 1rem;
+    align-items: top;
+    margin-top: 50px;
 }
-
 
 #timer {
     background-color: rgb(0, 0, 0);
@@ -206,12 +189,10 @@ esse show period é para mostrar quando é am ou pm
     padding: 1rem;
 }
 
-
 #cronometerButtons{
     display: flex;
     gap: 0.75rem;
 }
-
 
 #reset, #startAndStop, #save {
     display: flex;
@@ -228,7 +209,6 @@ esse show period é para mostrar quando é am ou pm
     cursor: pointer;
 }
 
-
 #timesList{
     color:white;
     display: flex;
@@ -236,10 +216,7 @@ esse show period é para mostrar quando é am ou pm
     justify-content: center;
     flex-direction: column;
     gap: 0.75rem;
-
-
 }
-
 
 #timesList p:first-child{
     margin-top: 1.5rem;
