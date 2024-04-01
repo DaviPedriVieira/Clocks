@@ -197,3 +197,12 @@ setAnalogicClock();
 setInterval(setAnalogicClock, 1000);
 updateDigitalClock();
 setInterval(updateDigitalClock, 1000);
+
+
+/*
+
+falta:
+fazer a funcionalidade dos botões Am/Pm
+salvar relógios no local storage
+
+*/
