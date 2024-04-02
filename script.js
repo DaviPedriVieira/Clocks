@@ -67,8 +67,12 @@ function updateDigitalClock() {
     }} else {
         divShowPeriod.style.display = 'none';
     }
+    saveFormatToLocalStorage(use24HourFormat)
 }
 
+function saveFormatToLocalStorage(use24HourFormat) {
+    localStorage.setItem('hourFormat', JSON.stringify(use24HourFormat));
+}
 
 // mostrar ou não cada relógio
 const btnDigital = document.getElementById('btnDigital');
