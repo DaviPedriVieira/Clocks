@@ -12,11 +12,11 @@ const min = document.querySelector('#minutePointer');
 const sec = document.querySelector('#secondPointer');
 
 
-function setAnalogicClock() {
-    let day = new Date();
-    let hPointer = day.getHours() * 30;
-    let minPointer = day.getMinutes() * deg;
-    let secPointer = day.getSeconds() * deg;
+function updateAnalogicClock() {
+    let now = new Date();
+    let hPointer = now.getHours() * 30;
+    let minPointer = now.getMinutes() * deg;
+    let secPointer = now.getSeconds() * deg;
 
     hour.style.transform = `rotateZ(${hPointer + minPointer / 12}deg)`;
     min.style.transform = `rotateZ(${minPointer}deg)`;
@@ -24,14 +24,49 @@ function setAnalogicClock() {
 };
 
 
+
 // relógio digital
+
+
+
+const btnAmPm = document.getElementById('amPm');
+
+btnAmPm.addEventListener('click', toggleTimeFormat);
+
+let use24HourFormat = false;
+
+function toggleTimeFormat() {
+    use24HourFormat = !use24HourFormat;
+    updateDigitalClock();
+}
+
 function updateDigitalClock() {
     const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
+    let hours;
+
+    if (use24HourFormat) {
+        hours = String(now.getHours()).padStart(2, "0");
+    } else {
+        hours = String((now.getHours() % 12) || 12).padStart(2, "0");
+    }
+
     const minutes = String(now.getMinutes()).padStart(2, "0");
     const seconds = String(now.getSeconds()).padStart(2, "0");
-   
-    digitalClock.textContent = `${hours}:${minutes}:${seconds}`;
+    
+    const timeFormat = use24HourFormat ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}:${seconds}`;
+
+    digitalClock.textContent = timeFormat;
+
+    const clock = localStorage.getItem('whichClock');
+    if (clock === 'digital') {
+        if(!use24HourFormat) {
+            divShowPeriod.style.display = 'flex';
+            divShowPeriod.textContent = now.getHours() >= 12 ? 'PM' : 'AM';
+        } else {
+            divShowPeriod.style.display = 'none';
+    }} else {
+        divShowPeriod.style.display = 'none';
+    }
 }
 
 
@@ -40,7 +75,7 @@ const btnDigital = document.getElementById('btnDigital');
 
 btnDigital.addEventListener('click', () => {
     changeToDigitalClock();
-    saveClockStateToLocalStorage('digital');
+    saveClockType('digital');
 });
 
 function changeToDigitalClock() {
@@ -56,7 +91,7 @@ const btnAnalogico = document.getElementById('btnAnalogico');
 
 btnAnalogico.addEventListener('click', () => {
     changeToAnalogicClock();
-    saveClockStateToLocalStorage('analogic');
+    saveClockType('analogic');
 });
 
 function changeToAnalogicClock() {
@@ -72,7 +107,7 @@ const btnCronometro = document.getElementById('btnCronometro');
 
 btnCronometro.addEventListener('click', () => {
     changeToCronometer();
-    saveClockStateToLocalStorage('cronometer');
+    saveClockType('cronometer');
 });
 
 function changeToCronometer() {
@@ -97,7 +132,7 @@ function formatTime(time){
     const hoursCrono = Math.floor(time / 3600000).toString().padStart(2, '0');
     const minutesCrono = Math.floor((time % 3600000) / 6000).toString().padStart(2, '0');
     const secondsCrono = Math.floor((time % 6000) / 100).toString().padStart(2, '0');
-    const milisecondsCrono = (time % 100).toString().padStart(2, '0');;
+    const milisecondsCrono = (time % 100).toString().padStart(2, '0');
 
     return `${hoursCrono}:${minutesCrono}:${secondsCrono}:${milisecondsCrono}`;
 };
@@ -108,7 +143,7 @@ function deleteTimeFromList(index) {
     if (confirmation) {
         times.splice(index, 1);
         saveTimesToLocalStorage();
-        renderTimes(); 
+        showTimes(); 
     }
 }  
 
@@ -120,7 +155,7 @@ function saveTime() {
     } else {
         times.push(timer);
         saveTimesToLocalStorage();
-        renderTimes();
+        showTimes();
     }
 }
 
@@ -135,12 +170,12 @@ function loadTimesFromLocalStorage() {
     const savedTimes = localStorage.getItem('times');
     if (savedTimes) {
         times = JSON.parse(savedTimes);
-        renderTimes(); 
+        showTimes(); 
     }
 }
 
 // renderiza a lista de tempos
-function renderTimes() {
+function showTimes() {
     timesList.innerHTML = ''; 
 
     times.forEach((time, index) => {
@@ -154,7 +189,7 @@ function resetTimer() {
     clearInterval(intervalId);
     timer = 0;
     setTimer (timer);
-    marksList.innerHTML = '';
+    timesList.innerHTML = '';
     const button = document.getElementById('power');
     button.getAttribute('action', 'start');
     button.innerHTML = '<i class="fa-solid fa-play"></i>';
@@ -190,49 +225,28 @@ document.getElementById('save').addEventListener('click', saveTime);
 
 // salvando relógios no local storage
 
-function saveClockStateToLocalStorage(clockType) {
-    localStorage.setItem('clockState', clockType);
+function saveClockType(clockType) {
+    localStorage.setItem('whichClock', clockType);
 }
 
-function loadClockStateFromLocalStorage() {
-    const clockState = localStorage.getItem('clockState');
-    if (clockState === 'digital') {
-        digitalClock.style.display = 'flex';
-        analogicClock.style.display = 'none';
-        cronometer.style.display = 'none';
-        btnsDigitalClock.style.display = 'flex';
-    } else if (clockState === 'analogic') {
-        digitalClock.style.display = 'none';
-        analogicClock.style.display = 'flex';
-        cronometer.style.display = 'none';
-        btnsDigitalClock.style.display = 'none';
-    } else if (clockState === 'cronometer') {
-        digitalClock.style.display = 'none';
-        analogicClock.style.display = 'none';
-        cronometer.style.display = 'block';
-        btnsDigitalClock.style.display = 'none';
+function loadClockType() {
+    const whichClock = localStorage.getItem('whichClock');
+    if (whichClock === 'digital') {
+        changeToDigitalClock();
+    } else if (whichClock === 'analogic') {
+        changeToAnalogicClock();
+    } else if (whichClock === 'cronometer') {
+        changeToCronometer();
     } else {
-        digitalClock.style.display = 'flex';
-        analogicClock.style.display = 'none';
-        cronometer.style.display = 'none';
-        btnsDigitalClock.style.display = 'flex';
+        changeToAnalogicClock();
     }
 }
 
-// Carregar o estado do relógio do localStorage ao carregar a página
-loadClockStateFromLocalStorage();
+
+loadClockType();
 
 
-setAnalogicClock();
-setInterval(setAnalogicClock, 1000);
+updateAnalogicClock();
+setInterval(updateAnalogicClock, 1000);
 updateDigitalClock();
 setInterval(updateDigitalClock, 1000);
-
-
-/*
-
-falta:
-fazer a funcionalidade dos botões Am/Pm
-salvar relógios no local storage
-
-*/
