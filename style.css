@@ -23,9 +23,6 @@ body {
     background-color: rgb(43, 43, 43);
 }
 
-
-
-
 .analogicClock {
     margin-top: 100px;
     min-height: 450px;
@@ -38,9 +35,21 @@ body {
     background-position: center center;
     background-size: cover;
     border-radius: 50%;
-    border: 10px solid rgb(77, 77, 77);
+    border: none;
     display: none;
+    z-index: 9;
 }
+
+.analogicClockBackground {
+    position: absolute;
+    z-index: 8; 
+    margin-top: 100px; 
+    min-height: 480px; 
+    min-width: 480px; 
+    background:linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0);
+    border-radius: 50%; 
+}
+
 
 .analogicClock:before {
     content:"";
@@ -114,7 +123,6 @@ body {
     background-position: center center;
     background-size: cover;
     border-radius: 2rem;
-    /*border: 30px solid rgb(76, 74, 74);*/
     border: none;
     z-index: 10;
     display: none;    
@@ -180,25 +188,27 @@ body {
 
 .digitalClockBackground {
     position: absolute;
-    z-index: 9; /* Coloque um z-index menor do que o relógio digital para que fique por trás dele */
-    margin-top: 100px; /* Ajuste conforme necessário */
-    min-height: 340px; /* Ajuste conforme necessário */
-    min-width: 540px; /* Ajuste conforme necessário */
-    background:linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0); /* Cor de fundo vermelha */
-    border-radius: 2rem; /* Adicione a mesma borda do relógio digital */
+    z-index: 9; 
+    margin-top: 100px; 
+    min-height: 340px; 
+    min-width: 540px; 
+    background:linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0); 
+    border-radius: 2rem; 
 }
 
 
 .cronometer{
     background-color: rgb(0, 0, 0);
-    border: 10px solid rgb(76, 74, 74);
+    border: 10px solid transparent;
+    border-image: linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0) 30;
+    border-image-slice: 30;
     border-radius: 1rem;
     align-items: top;
     margin-top: 10px;
     display: none;
-    max-height: 400px;
     margin-left: 10px;
     margin-right: 10px;
+
 }
 
 #timer {
@@ -232,6 +242,9 @@ body {
     margin-right: 10px;
     margin-bottom: 10px;
     cursor: pointer;
+    color: white;
+    background-color: black;
+    border: solid;
 }
 
 #timesList{
