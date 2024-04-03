@@ -6,36 +6,33 @@ const divShowPeriod = document.querySelector('#showPeriod')
 const btnsDigitalClock = document.querySelector('#btnsChangeType')
 
 
-// relógio analógico
+
+// Relógio analógico
 const hour = document.querySelector('#hourPointer');
 const min = document.querySelector('#minutePointer');
 const sec = document.querySelector('#secondPointer');
 
-
 function updateAnalogicClock() {
     let now = new Date();
-    let hPointer = now.getHours() * 30;
-    let minPointer = now.getMinutes() * deg;
-    let secPointer = now.getSeconds() * deg;
+    let hPointer = now.getHours() * 30;   //  360°/12h = 30° p hr
+    let minPointer = now.getMinutes() * deg; //  360°/60min = 6° p min
+    let secPointer = now.getSeconds() * deg; //  Mesma lógica do minuto
 
-    hour.style.transform = `rotateZ(${hPointer + minPointer / 12}deg)`;
-    min.style.transform = `rotateZ(${minPointer}deg)`;
-    sec.style.transform = `rotateZ(${secPointer}deg)`;
+    hour.style.transform = `rotateZ(${hPointer + minPointer / 12}deg)`; //  minutos/12 = fração que o ponteiro da hr vai andar
+    min.style.transform = `rotateZ(${minPointer}deg)`;  
+    sec.style.transform = `rotateZ(${secPointer}deg)`; 
 };
 
 
 
-// relógio digital
-
-
-
+// Relógio digital
 const btnAmPm = document.getElementById('amPm');
 
-btnAmPm.addEventListener('click', toggleTimeFormat);
+btnAmPm.addEventListener('click', changeTimeFormat);
 
 let use24HourFormat = false;
 
-function toggleTimeFormat() {
+function changeTimeFormat() {
     use24HourFormat = !use24HourFormat;
     updateDigitalClock();
 }
@@ -52,10 +49,8 @@ function updateDigitalClock() {
 
     const minutes = String(now.getMinutes()).padStart(2, "0");
     const seconds = String(now.getSeconds()).padStart(2, "0");
-    
-    const timeFormat = use24HourFormat ? `${hours}:${minutes}:${seconds}` : `${hours}:${minutes}:${seconds}`;
 
-    digitalClock.textContent = timeFormat;
+    digitalClock.textContent = `${hours}:${minutes}:${seconds}`;;
 
     const clock = localStorage.getItem('whichClock');
     if (clock === 'digital') {
@@ -73,6 +68,118 @@ function updateDigitalClock() {
 function saveFormatToLocalStorage(use24HourFormat) {
     localStorage.setItem('hourFormat', JSON.stringify(use24HourFormat));
 }
+
+window.onload = loadDigitalClockTimeFormat();
+
+function loadDigitalClockTimeFormat() {
+    const use24HourFormat = localStorage.getItem('hourFormat');
+    if (use24HourFormat == 'true') {
+        document.getElementById("amPm").click();
+    }
+};
+
+
+
+// Cronômetro
+const timerElement = document.getElementById('timer');
+const timesList = document.getElementById('timesList');
+let times = [];
+let interval = 0;
+let timer = 0;
+
+
+function ShowTheTime(time){
+    const hoursCrono = Math.floor(time / 3600000).toString().padStart(2, '0');
+    const minutesCrono = Math.floor((time % 3600000) / 6000).toString().padStart(2, '0');
+    const secondsCrono = Math.floor((time % 6000) / 100).toString().padStart(2, '0');
+    const milisecondsCrono = (time % 100).toString().padStart(2, '0');
+
+    return `${hoursCrono}:${minutesCrono}:${secondsCrono}:${milisecondsCrono}`;
+};
+
+function deleteTimeFromList(index) {
+    let confirmation = confirm('Deseja realmente excluir? ');
+    if (confirmation) {
+        times.splice(index, 1);
+        saveTimesToLocalStorage();
+        showTimes(); 
+    }
+}  
+
+function saveTimeOnTheList() {
+    if (timer == 0) {
+        alert("Tempo inválido!");
+    } else if (times.includes(timer)) {
+        alert("Já existe um tempo igual salvo na lista!");
+    } else {
+        times.push(timer);
+        saveTimesToLocalStorage();
+        showTimes();
+    }
+}
+
+// salva os tempos no localStorage
+function saveTimesToLocalStorage() {
+    localStorage.setItem('times', JSON.stringify(times));
+}
+
+// carrega os tempos do localStorage
+function loadTimesListFromLocalStorage() {
+    const savedTimes = localStorage.getItem('times');
+    if (savedTimes) {
+        times = JSON.parse(savedTimes);
+        showTimes(); 
+    }
+}
+
+// renderiza a lista de tempos
+function showTimes() {
+    timesList.innerHTML = ''; 
+
+    times.forEach((time, index) => {
+        timesList.innerHTML += `<p>Tempo ${index + 1}: ${ShowTheTime(time)} <button id="deleteTime" onclick="deleteTimeFromList(${index})"><i class="fa-solid fa-circle-xmark"></i></button></p>`;
+    });
+}
+
+loadTimesListFromLocalStorage();
+
+function resetTimer() {
+    clearInterval(interval);
+    timer = 0;
+    setTimer (timer);
+    timesList.innerHTML = '';
+    const button = document.getElementById('power');
+    button.getAttribute('action', 'start');
+    button.innerHTML = '<i class="fa-solid fa-play"></i>';
+}
+
+function ChangeBtnTimerForm() {
+    const button = document.getElementById('startAndStop');
+    const action = button.getAttribute('action');
+
+    clearInterval(interval);
+
+    if(action == 'start' || action == 'continue'){
+        interval = setInterval(() => {
+            timer += 1;
+            setTimer(timer);
+        }, 10);
+        button.setAttribute('action', 'pause');
+        button.innerHTML = '<i class="fa-solid fa-pause"></i>';
+    } else if (action == 'pause') {
+        button.setAttribute('action', 'continue');
+        button.innerHTML = '<i class="fa-solid fa-play"></i>';
+    }
+};
+
+function setTimer(time) {
+    timerElement.innerText = ShowTheTime(time);
+};
+
+document.getElementById('startAndStop').addEventListener('click', ChangeBtnTimerForm);
+document.getElementById('reset').addEventListener('click', resetTimer);
+document.getElementById('save').addEventListener('click', saveTimeOnTheList);
+
 
 // mostrar ou não cada relógio
 const btnDigital = document.getElementById('btnDigital');
@@ -122,113 +229,8 @@ function changeToCronometer() {
     divShowPeriod.style.display = 'none';
 }
 
-// Cronômetro
-const timerElement = document.getElementById('timer');
-const timesList = document.getElementById('timesList');
-let times = [];
-
-
-let intervalId = 0;
-let timer = 0;
-
-
-function formatTime(time){
-    const hoursCrono = Math.floor(time / 3600000).toString().padStart(2, '0');
-    const minutesCrono = Math.floor((time % 3600000) / 6000).toString().padStart(2, '0');
-    const secondsCrono = Math.floor((time % 6000) / 100).toString().padStart(2, '0');
-    const milisecondsCrono = (time % 100).toString().padStart(2, '0');
-
-    return `${hoursCrono}:${minutesCrono}:${secondsCrono}:${milisecondsCrono}`;
-};
-
-// exclui um tempo da lista
-function deleteTimeFromList(index) {
-    let confirmation = confirm('Deseja realmente excluir? ');
-    if (confirmation) {
-        times.splice(index, 1);
-        saveTimesToLocalStorage();
-        showTimes(); 
-    }
-}  
-
-function saveTime() {
-    if (timer == 0) {
-        alert("Tempo inválido!");
-    } else if (times.includes(timer)) {
-        alert("Já existe um tempo igual salvo na lista!");
-    } else {
-        times.push(timer);
-        saveTimesToLocalStorage();
-        showTimes();
-    }
-}
-
-
-// salva os tempos no localStorage
-function saveTimesToLocalStorage() {
-    localStorage.setItem('times', JSON.stringify(times));
-}
-
-// carrega os tempos do localStorage
-function loadTimesFromLocalStorage() {
-    const savedTimes = localStorage.getItem('times');
-    if (savedTimes) {
-        times = JSON.parse(savedTimes);
-        showTimes(); 
-    }
-}
-
-// renderiza a lista de tempos
-function showTimes() {
-    timesList.innerHTML = ''; 
-
-    times.forEach((time, index) => {
-        timesList.innerHTML += `<p>Tempo ${index + 1}: ${formatTime(time)} <button id="deleteTime" onclick="deleteTimeFromList(${index})"><i class="fa-solid fa-circle-xmark"></i></button></p>`;
-    });
-}
-
-loadTimesFromLocalStorage();
-
-function resetTimer() {
-    clearInterval(intervalId);
-    timer = 0;
-    setTimer (timer);
-    timesList.innerHTML = '';
-    const button = document.getElementById('power');
-    button.getAttribute('action', 'start');
-    button.innerHTML = '<i class="fa-solid fa-play"></i>';
-}
-
-function toggleTimer() {
-    const button = document.getElementById('startAndStop');
-    const action = button.getAttribute('action');
-
-    clearInterval(intervalId);
-
-    if(action == 'start' || action == 'continue'){
-        intervalId = setInterval(() => {
-            timer += 1;
-            setTimer(timer);
-        }, 10);
-        button.setAttribute('action', 'pause');
-        button.innerHTML = '<i class="fa-solid fa-pause"></i>';
-    } else if (action == 'pause') {
-        button.setAttribute('action', 'continue');
-        button.innerHTML = '<i class="fa-solid fa-play"></i>';
-    }
-};
-
-function setTimer(time) {
-    timerElement.innerText = formatTime(time);
-};
-
-document.getElementById('startAndStop').addEventListener('click', toggleTimer);
-document.getElementById('reset').addEventListener('click', resetTimer);
-document.getElementById('save').addEventListener('click', saveTime);
-
 
 // salvando relógios no local storage
-
 function saveClockType(clockType) {
     localStorage.setItem('whichClock', clockType);
 }
@@ -245,7 +247,6 @@ function loadClockType() {
         changeToAnalogicClock();
     }
 }
-
 
 loadClockType();
 
