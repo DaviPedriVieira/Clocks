@@ -4,7 +4,7 @@ const analogicClock = document.querySelector('.analogicClock')
 const cronometer = document.querySelector('.cronometer')
 const divShowPeriod = document.querySelector('#showPeriod')
 const btnsDigitalClock = document.querySelector('#btnsChangeType')
-
+const digitalClockBackground = document.querySelector('.digitalClockBackground')
 
 
 // Relógio analógico
@@ -195,6 +195,7 @@ function changeToDigitalClock() {
     cronometer.style.display = 'none';
     btnsDigitalClock.style.display = 'flex';
     divShowPeriod.style.display = 'flex';
+    digitalClockBackground.style.display = 'flex';
 }
 
 
@@ -211,6 +212,7 @@ function changeToAnalogicClock() {
     cronometer.style.display = 'none';
     btnsDigitalClock.style.display = 'none';
     divShowPeriod.style.display = 'none';
+    digitalClockBackground.style.display = 'none';
 }
 
 
@@ -227,6 +229,7 @@ function changeToCronometer() {
     cronometer.style.display = 'block';
     btnsDigitalClock.style.display = 'none';
     divShowPeriod.style.display = 'none';
+    digitalClockBackground.style.display = 'none';
 }
 
 

@@ -5,7 +5,7 @@
 
 body {
     min-height: 100vh;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(43, 43, 43);
 }
 
 #menu {
@@ -20,8 +20,11 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    background-color: rgb(20, 20, 20);
+    background-color: rgb(43, 43, 43);
 }
+
+
+
 
 .analogicClock {
     margin-top: 100px;
@@ -100,18 +103,19 @@ body {
     position: absolute;
     z-index: 998;
     margin-top: 100px;
-    color: white;
+    color: rgb(255, 255, 255);
     font-size: 120px;
     min-height: 300px;
     min-width: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(0, 0, 0);
+    background-color:black;
     background-position: center center;
     background-size: cover;
-    border-radius: 4rem;
-    border: 30px solid rgb(76, 74, 74);
+    border-radius: 2rem;
+    /*border: 30px solid rgb(76, 74, 74);*/
+    border: none;
     z-index: 10;
     display: none;    
 }
@@ -122,7 +126,7 @@ body {
     left: 50%; 
     transform: translateX(-50%); 
     z-index: 1;
-    color: white;
+    color: rgb(255, 255, 255);
     margin-top: 320px;
     font-size: 2rem;
     z-index: 999;
@@ -147,7 +151,7 @@ body {
     color: black;
     min-height: 60px;
     min-width: 200px;
-    background-color: rgb(43, 43, 43);
+    background-color: rgb(0, 0, 0);
     border-radius: 1rem;
     margin: 0 10px;
     color:white;
@@ -169,18 +173,32 @@ body {
     min-width: 150px;
     border-radius: 1rem;
     color:white;
-    background-color: rgb(43, 43, 43);
+    background-color: rgb(0, 0, 0);
     cursor: pointer;
     font-size: 16px;
 }
+
+.digitalClockBackground {
+    position: absolute;
+    z-index: 9; /* Coloque um z-index menor do que o relógio digital para que fique por trás dele */
+    margin-top: 100px; /* Ajuste conforme necessário */
+    min-height: 340px; /* Ajuste conforme necessário */
+    min-width: 540px; /* Ajuste conforme necessário */
+    background:linear-gradient(135deg, #14ffe9, #ffeb3b, #ff00e0); /* Cor de fundo vermelha */
+    border-radius: 2rem; /* Adicione a mesma borda do relógio digital */
+}
+
 
 .cronometer{
     background-color: rgb(0, 0, 0);
     border: 10px solid rgb(76, 74, 74);
     border-radius: 1rem;
     align-items: top;
-    margin-top: 50px;
+    margin-top: 10px;
     display: none;
+    max-height: 400px;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #timer {
