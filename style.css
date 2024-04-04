@@ -213,7 +213,7 @@ body {
 
 #timer {
     background-color: rgb(0, 0, 0);
-    height: 200px;
+    height: 210px;
     width: 300px;
     border-radius: 100%;
     display: flex;

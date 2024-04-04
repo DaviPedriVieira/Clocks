@@ -9,11 +9,6 @@ const analogicClockBackground = document.querySelector('.analogicClockBackground
 
 
 
-
-
-
-
-
 // Relógio analógico
 const hour = document.querySelector('#hourPointer');
 const min = document.querySelector('#minutePointer');
@@ -23,7 +18,7 @@ function updateAnalogicClock() {
     let now = new Date();
     let hPointer = now.getHours() * 30;   //  360°/12h = 30° p hr
     let minPointer = now.getMinutes() * deg; //  360°/60min = 6° p min
-    let secPointer = now.getSeconds() * deg; //  Mesma lógica do minuto
+    let secPointer = now.getSeconds() * deg; 
 
     hour.style.transform = `rotateZ(${hPointer + minPointer / 12}deg)`; //  minutos/12 = fração que o ponteiro da hr vai andar
     min.style.transform = `rotateZ(${minPointer}deg)`;  
@@ -81,7 +76,7 @@ window.onload = loadDigitalClockTimeFormat();
 function loadDigitalClockTimeFormat() {
     const use24HourFormat = localStorage.getItem('hourFormat');
     if (use24HourFormat == 'true') {
-        document.getElementById("amPm").click();
+        btnAmPm.click();
     }
 };
 
@@ -125,7 +120,6 @@ function saveTimeOnTheList() {
     }
 }
 
-// salva os tempos no localStorage
 function saveTimesToLocalStorage() {
     localStorage.setItem('times', JSON.stringify(times));
 }
@@ -139,7 +133,6 @@ function loadTimesListFromLocalStorage() {
     }
 }
 
-// renderiza a lista de tempos
 function showTimes() {
     timesList.innerHTML = ''; 
 
@@ -154,7 +147,6 @@ function resetTimer() {
     clearInterval(interval);
     timer = 0;
     setTimer (timer);
-    timesList.innerHTML = '';
     const button = document.getElementById('power');
     button.getAttribute('action', 'start');
     button.innerHTML = '<i class="fa-solid fa-play"></i>';
