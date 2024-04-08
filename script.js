@@ -147,7 +147,7 @@ function resetTimer() {
     clearInterval(interval);
     timer = 0;
     setTimer (timer);
-    const button = document.getElementById('power');
+    const button = document.getElementById('startAndStop');
     button.getAttribute('action', 'start');
     button.innerHTML = '<i class="fa-solid fa-play"></i>';
 }
